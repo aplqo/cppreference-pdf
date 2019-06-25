@@ -6,7 +6,7 @@
 
 namespace doc
 {
-    std::list<std::experimental::filesystem::path> parse(const char *filename);
+    void parse(const char *filename,std::list<std::experimental::filesystem::path> *result);
 };
 
 #endif
