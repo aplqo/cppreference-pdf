@@ -12,6 +12,7 @@ namespace doc
 		void Compare(const list &l,list *result);
 		void Remove(const list &l);
 		bool isEmpty();
+		bool Apply(bool *func(const path &p));
 		~list();
 	protected:
 		bool find(const path &p);
@@ -79,5 +80,18 @@ namespace doc
 			delete lst;
 			lst=nullptr;
 		}
+	}
+	bool list::Apply(bool *func(const path &p))
+	{
+		bool result=true;
+		if(lst==nullptr)
+		{
+			return true;
+		}
+		for(auto &i : *lst)
+		{
+			result&=*func(i);
+		}
+		return result;
 	}
 }
