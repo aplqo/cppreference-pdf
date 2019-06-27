@@ -2,9 +2,7 @@
 #define LINK_H
 
 #include"list.h"
-#include<experimental/filesystem>
-
-using std::experimental::filesystem::path;
+#include<filesystem>
 
 namespace doc
 {
@@ -12,7 +10,7 @@ namespace doc
     {
     public:
         link(const path &p);
-        link(std::list<path>::iterator i);
+        link(std::list<std::filesystem::path>::iterator i);
         void Read();
         bool Check();
         void Release();

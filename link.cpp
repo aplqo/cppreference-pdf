@@ -1,9 +1,9 @@
 #include<list>
-#include<experimental/filesystem>
+#include<filesystem>
 #include"list.h"
 #include"parse.h"
 
-namespace fs=std::experimental::filesystem;
+namespace fs=std::filesystem;
 using fs::path;
 using fs::absolute;
 using fs::exists;

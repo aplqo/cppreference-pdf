@@ -2,7 +2,7 @@
 #define LIST_H
 
 #include<list>
-#include<experimental/filesystem>
+#include<filesystem>
 namespace doc
 {
 	class list
@@ -14,8 +14,8 @@ namespace doc
 		bool isEmpty();
 		~list();
 	protected:
-		bool find(const std::experimental::filesystem::path &p);
-		std::list<std::experimental::filesystem::path> *lst;
+		bool find(const std::filesystem::path &p);
+		std::list<std::filesystem::path> *lst;
 		bool isBase;
 	};
 }
