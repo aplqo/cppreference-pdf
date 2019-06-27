@@ -27,13 +27,13 @@ namespace doc
 			tmp.clear();
 		}
 	}
-	void parse(const char *filename,std::list<std::experimental::filesystem::path> *result)
+	void parse(const char *filename,std::list<path> *result)
 	{
 		string s;
 		read(filename,&s);
 		CDocument d;
 		d.parse(s);
-		CSelection sel=d.find("<a>");
+		CSelection sel=d.find("a");
 		d.release();
 		size_t num=sel.nodeNum();
 		for(size_t i=0;i<num;i++)

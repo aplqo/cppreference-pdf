@@ -7,6 +7,8 @@ namespace fs=std::filesystem;
 using fs::path;
 using fs::absolute;
 using fs::exists;
+using fs::current_path;
+using fs::canonical;
 
 namespace doc
 {
@@ -116,7 +118,13 @@ namespace doc
 	}
 	inline path link::toAbsolute(const path &p)
 	{
-		return absolute(p,it->parent_path());
+		path res;
+		path cu=current_path();
+		current_path(it->parent_path());
+		res=absolute(p);
+		res=canonical(res);
+		current_path(cu);
+		return res;
 	}
 	inline bool link::isFirst(const path &p)
 	{

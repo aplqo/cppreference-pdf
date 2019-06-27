@@ -11,6 +11,9 @@ using fs::path;
 using fs::directory_entry;
 using fs::recursive_directory_iterator;
 using fs::is_regular_file;
+using fs::canonical;
+using fs::absolute;
+using fs::current_path;
 
 namespace doc
 {
@@ -20,6 +23,8 @@ namespace doc
         filelist(const path &p);
         filelist(const char * file);
         ~filelist();
+        private:
+        inline path toAbsolute(const path &p);
     };
     filelist::filelist(const path &p)
     {
@@ -36,7 +41,7 @@ namespace doc
         {
             if(is_regular_file(i))
             {
-                lst->push_back(i.path());
+                lst->push_back(toAbsolute(i.path()));
             }
         }
     }
@@ -56,7 +61,7 @@ namespace doc
             getline(i,tmp);
             if(!tmp.empty())
             {
-                lst->push_back(path(tmp));
+                lst->push_back(toAbsolute(path(tmp.c_str())));
             }
             tmp.clear();
         }
@@ -65,4 +70,11 @@ namespace doc
     {
         delete lst;
     }
+    inline path filelist::toAbsolute(const path &p)
+	{
+		path res;
+		res=absolute(p);
+		res=canonical(res);
+		return res;
+	}
 }

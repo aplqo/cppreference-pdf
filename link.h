@@ -9,7 +9,7 @@ namespace doc
     class link : public list
     {
     public:
-        link(const path &p);
+        link(const std::filesystem::path &p);
         link(std::list<std::filesystem::path>::iterator i);
         void Read();
         bool Check();
