@@ -12,7 +12,7 @@ namespace doc
 		void Compare(const list &l,list *result);
 		void Remove(const list &l);
 		bool isEmpty();
-		bool Apply(bool *func(const path &p));
+		bool Apply(bool func(const path &p,void *par),void *par);
 		~list();
 	protected:
 		bool find(const path &p);
@@ -81,7 +81,7 @@ namespace doc
 			lst=nullptr;
 		}
 	}
-	bool list::Apply(bool *func(const path &p))
+	bool list::Apply(bool func(const path &p,void *par),void *par)
 	{
 		bool result=true;
 		if(lst==nullptr)
@@ -90,7 +90,7 @@ namespace doc
 		}
 		for(auto &i : *lst)
 		{
-			result&=*func(i);
+			result&=func(i,par);
 		}
 		return result;
 	}

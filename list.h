@@ -12,6 +12,7 @@ namespace doc
 		void Compare(const list &l,list *result);
 		void Remove(const list &l);
 		bool isEmpty();
+		bool Apply(bool func(const std::filesystem::path &p,void *par),void *par);
 		~list();
 	protected:
 		bool find(const std::filesystem::path &p);
