@@ -73,6 +73,7 @@ namespace doc
         if(!generate(l,out))
         {
             error("Failed to generate pdf file");
+            exit(-1);
         }
         wkhtmltopdf_deinit();
     }
