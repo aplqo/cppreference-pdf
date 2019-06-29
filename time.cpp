@@ -89,7 +89,7 @@ namespace doc
         uintmax_t size=result.size;
         while(true)
         {
-            tmp+=50;
+            tmp+=80;
             size=tryone(p,tmp);
             if(size>result.size)
             {
@@ -98,12 +98,13 @@ namespace doc
             }
             else
             {
+                tmp-=80;
                 break;
             }
         }
         while(true)
         {
-            tmp-=50;
+            tmp-=80;
             size=tryone(p,tmp);
             result.beg=tmp;
             if(size<result.size)
@@ -131,6 +132,7 @@ namespace doc
             if(size>it->size)
             {
                 lst->insert(it--,{size,p});
+                break;
             }
         }
         return;
@@ -147,6 +149,7 @@ namespace doc
     }
     string time(list &l)
     {
+        create_directory(tmpdir);
         unsigned int tim[5];
         {
             path f[5];
@@ -157,6 +160,7 @@ namespace doc
                 tim[i]=find(f[i],r);
             }
         }
+        remove(tmpdir);
         unsigned int res;
         for(auto i:tim)
         {
