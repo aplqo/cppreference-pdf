@@ -117,13 +117,13 @@ namespace doc
         }
         return result;
     }
-    bool sort(const path &p,void *par)
+    void sort(const path &p,void *par)
     {
         std::list<file>* lst=reinterpret_cast<std::list<file>*>(par);
         uintmax_t size=file_size(p);
         if(size<(lst->end()--)->size)
         {
-            return true;
+            return;
         }
         std::list<file>::iterator it=lst->begin();
         for(unsigned int i=0;i<5;i++,it++)
@@ -133,7 +133,7 @@ namespace doc
                 lst->insert(it--,{size,p});
             }
         }
-        return true;
+        return;
     }
     inline void getlarge(list &l,path p[])
     {
