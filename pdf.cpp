@@ -60,7 +60,7 @@ namespace doc
         wkhtmltopdf_destroy_global_settings(gs);
         return result;
     }
-    inline void pdf(list &l,const char *out)
+    void pdf(list &l,const char *out)
     {
         wkhtmltopdf_init(false);
 

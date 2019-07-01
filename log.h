@@ -5,8 +5,8 @@
 
 namespace doc
 {
-    inline void info(const char *msg);
-    inline void error(const char *msg);
-    inline void warning(const char *msg);
+    void info(const char *msg);
+    void error(const char *msg);
+    void warning(const char *msg);
 }
 #endif

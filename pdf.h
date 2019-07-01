@@ -4,6 +4,6 @@
 #include"list.h"
 namespace doc
 {
-    inline void pdf(list &l,const char *out);
+    void pdf(list &l,const char *out);
 }
 #endif

@@ -36,54 +36,55 @@ namespace doc
         l.Apply(cb_log,&o);
         o.close();
     }
-    int main(char *argv[],int argc)
+}
+int main(int argc,char *argv[])
+{
+    if (argc < 2)
     {
-        if(argc<2)
-        {
-            usage();
-            return 0;
-        }
-        path first(argv[1]);
-        if(!exists(first))
-        {
-            error("Can't find first file");
-            return -1;
-        }
-
-        info("Generating link list...");
-        link lnk(first);
-        lnk.Read();
-        while(!lnk.Check());
-        log(lnk,"links.log");
-        
-        info("Checking if every file is included...");
-        {
-            filelist flist(first);
-            log(flist,"filelist.log");
-            list diff;
-            lnk.Compare(flist,&diff);
-            {
-                path p("ignore.txt");
-                if(exists(p))
-                {
-                    filelist ign("ignore.txt");
-                    diff.Remove(ign);
-                }
-                else
-                {
-                    warning("Can't find ignore.txt");
-                }
-            }
-            if(!diff.isEmpty())
-            {
-                error("These file aren't included:");
-                auto cb=[](const path &p,void *par){cout<<"\t"<<p<<endl;};
-                diff.Apply(cb,nullptr);
-                return -1;
-            }
-        }
-
-        pdf(lnk,argv[2]);
+        doc::usage();
         return 0;
     }
+    path first(argv[1]);
+    if (!exists(first))
+    {
+        doc::error("Can't find first file");
+        return -1;
+    }
+
+    doc::info("Generating link list...");
+    doc::link lnk(first);
+    lnk.Read();
+    while (!lnk.Check())
+        ;
+    doc::log(lnk, "links.log");
+
+    doc::info("Checking if every file is included...");
+    {
+        doc::filelist flist(first);
+        doc::log(flist, "filelist.log");
+        doc::list diff;
+        lnk.Compare(flist, &diff);
+        {
+            path p("ignore.txt");
+            if (exists(p))
+            {
+                doc::filelist ign("ignore.txt");
+                diff.Remove(ign);
+            }
+            else
+            {
+                doc::warning("Can't find ignore.txt");
+            }
+        }
+        if (!diff.isEmpty())
+        {
+            doc::error("These file aren't included:");
+            auto cb = [](const path &p, void *par) { cout << "\t" << p << endl; };
+            diff.Apply(cb, nullptr);
+            return -1;
+        }
+    }
+
+    doc::pdf(lnk, argv[2]);
+    return 0;
 }
