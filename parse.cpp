@@ -34,7 +34,6 @@ namespace doc
 		CDocument d;
 		d.parse(s);
 		CSelection sel=d.find("a");
-		d.release();
 		size_t num=sel.nodeNum();
 		for(size_t i=0;i<num;i++)
 		{
