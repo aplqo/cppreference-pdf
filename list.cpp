@@ -2,6 +2,7 @@
 #include<filesystem>
 
 using std::filesystem::path;
+using std::filesystem::equivalent;
 
 namespace doc
 {
@@ -66,7 +67,7 @@ namespace doc
 	{
 		for(auto &i: *lst)
 		{
-			if(i==p)
+			if(equivalent(i,p))
 			{
 				return true;
 			}
