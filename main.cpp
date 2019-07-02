@@ -29,9 +29,10 @@ namespace doc
         ofstream *o=reinterpret_cast<ofstream*>(par);
         (*o)<<p<<endl;
     }
-    void log(list &l,const char *file)
+    void log(list &l,const char *file,const char* out)
     {
-        ofstream o(file,ios::out);
+        path o_path=(path(out).parent_path())/path(file);
+        ofstream o(o_path.c_str(),ios::out);
         if(!o.is_open()) return;
         l.Apply(cb_log,&o);
         o.close();
@@ -56,12 +57,12 @@ int main(int argc,char *argv[])
     lnk.Read();
     while (!lnk.Check())
         ;
-    doc::log(lnk, "links.log");
+    doc::log(lnk, "links.log",argv[2]);
 
     doc::info("Checking if every file is included...");
     {
         doc::filelist flist(first);
-        doc::log(flist, "filelist.log");
+        doc::log(flist, "filelist.log",argv[2]);
         doc::list diff;
         lnk.Compare(flist, &diff);
         {
