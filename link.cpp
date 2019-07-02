@@ -38,12 +38,8 @@ namespace doc
 		root=this;
 		this->isBase=false;
 		links=nullptr;
-		if(!exists(p))
-		{
-			return;
-		}
 		lst=new std::list<path>;
-		lst->push_back(absolute(p));
+		lst->push_back(canonical(absolute(p)));
 		it=lst->begin();
 	}
 	link::link(std::list<path>::iterator i)
@@ -57,22 +53,29 @@ namespace doc
 		links=new std::list<path>;
 		parse(it->c_str(),links);
 		std::list<path>::iterator now=it;
-		for(auto &i:(*links))
+		for(auto i=links->begin();i!=(links->end());i++)
 		{
-			if(find(i))
+			auto e=[l=this->lst](std::list<path>::iterator pos)->std::list<path>::iterator{
+				auto j=pos;
+				pos++;
+				l->erase(j);
+				pos--;
+				return pos;
+				};
+			if(find(*i))
 			{
-				links->remove(i);
+				e(i);
 				continue;
 			}
-			path p=toAbsolute(i);
+			path p=toAbsolute(*i);
 			if(!exists(p))
 			{
-				links->remove(i);
+				e(i);
 				continue;
 			}
-			if(isFirst(i))
+			if(isFirst(*i))
 			{
-				lst->insert(now,i);
+				lst->insert(now,*i);
 				child.push_back(now);
 				now++;
 				continue;
