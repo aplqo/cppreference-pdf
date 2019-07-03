@@ -11,13 +11,15 @@ namespace fs=std::filesystem;
 using fs::file_size;
 using fs::path;
 using fs::remove;
+using fs::remove_all;
 using fs::create_directory;
 using fs::exists;
+using fs::temp_directory_path;
 
 namespace doc
 {
-    const path tmpdir("/tmp/cppreference-doc");
-    /* 
+    const path tmpdir=(temp_directory_path())/path("cppreference-doc");
+    /*
     //callback functions for wkhtmltopdf
     void progress_changed(wkhtmltopdf_converter *c,int p){}
     void phase_changed(wkhtmltopdf_converter *c){}
@@ -160,7 +162,7 @@ namespace doc
                 tim[i]=find(f[i],r);
             }
         }
-        remove(tmpdir);
+        remove_all(tmpdir);
         unsigned int res;
         for(auto i:tim)
         {
