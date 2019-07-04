@@ -2,3 +2,5 @@
 build
 *.o
 .vscode
+tmp/
+compile_flags.txt
