@@ -9,6 +9,8 @@ using fs::absolute;
 using fs::exists;
 using fs::current_path;
 using fs::canonical;
+using fs::equivalent;
+using fs::is_regular_file;
 
 namespace doc
 {
@@ -23,13 +25,13 @@ namespace doc
 		~link();
 	private:
 		inline path toAbsolute(const path &p);
-		inline bool isFirst(const path &p); //check if a file should be included in the first time 
+		inline bool isFirst(const path &p); //check if a file should be included in the first time
 		/*---var---*/
 		std::list<path> *links;
-		
+
 		static link* root;
 		std::list<link> child;
-		
+
 		std::list<path>::iterator it;
 	};
 	link* link::root=nullptr;
@@ -61,21 +63,21 @@ namespace doc
 				l->erase(j);
 				pos--;
 				return pos;
-				};
-			if(find(*i))
-			{
-				e(i);
-				continue;
-			}
+			};
 			path p=toAbsolute(*i);
-			if(!exists(p))
+			if(!(exists(p)&&is_regular_file(p)))
 			{
-				e(i);
+				i=e(i);
 				continue;
 			}
-			if(isFirst(*i))
+			if(find(p))
 			{
-				lst->insert(now,*i);
+				i=e(i);
+				continue;
+			}
+			if(isFirst(p))
+			{
+				lst->insert(now,p);
 				child.push_back(now);
 				now++;
 				continue;
@@ -91,7 +93,7 @@ namespace doc
 		{
 			if(!find(j))
 			{
-				lst->insert(now,j);
+				lst->insert(now,toAbsolute(j));
 				result=false;
 				child.insert(c_now,now);
 				c_now->Read();
@@ -125,13 +127,23 @@ namespace doc
 		path cu=current_path();
 		current_path(it->parent_path());
 		res=absolute(p);
-		res=canonical(res);
+		if(exists(res))
+		{
+			res=canonical(res);
+		}
 		current_path(cu);
 		return res;
 	}
 	inline bool link::isFirst(const path &p)
 	{
-		path dir=(it->parent_path())/(it->filename());
-		return dir==(p.parent_path());
+		path dir=(it->parent_path())/(it->stem())/(p.filename());
+		if(exists(dir))
+		{
+			return equivalent(dir,p);
+		}
+		else
+		{
+			return false;
+		}
 	}
 }
