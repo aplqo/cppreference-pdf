@@ -83,6 +83,10 @@ namespace doc
 				continue;
 			}
 		}
+		for(auto &i: child)
+		{
+			i.Read();
+		}
 	}
 	bool link::Check()
 	{
