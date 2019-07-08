@@ -6,14 +6,12 @@
 #include<locale>
 #include<gq/Document.h>
 #include<gq/Node.h>
-#include"log.h"
 
 using std::filesystem::path;
 using std::ifstream;
 using std::stringstream;
 using std::ios_base;
 using std::string;
-using std::getline;
 using std::locale;
 
 namespace doc
