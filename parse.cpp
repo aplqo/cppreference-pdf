@@ -1,36 +1,41 @@
 #include<list>
 #include<fstream>
+#include<sstream>
 #include<string>
 #include<filesystem>
+#include<locale>
 #include<gq/Document.h>
 #include<gq/Node.h>
+#include"log.h"
 
 using std::filesystem::path;
 using std::ifstream;
+using std::stringstream;
+using std::ios_base;
 using std::string;
 using std::getline;
+using std::locale;
 
 namespace doc
 {
-	static inline void read(const char *filename,string *result)
+	static const locale u8("en_US.UTF-8");
+	static inline void read(const char *filename,string &s)
 	{
 		ifstream i(filename);
+		i.seekg(2, ios_base::beg);
 		if(!i.is_open())
 		{
 			return;
 		}
-		string tmp;
-		while(!i.eof())
-		{
-			getline(i,tmp);
-			(*result)+=tmp;
-			tmp.clear();
-		}
+		i.imbue(u8);
+		stringstream buf;
+		buf<<i.rdbuf();
+		s=buf.str();
 	}
 	void parse(const char *filename,std::list<path> *result)
 	{
 		string s;
-		read(filename,&s);
+		read(filename,s);
 		CDocument d;
 		d.parse(s);
 		CSelection sel=d.find("a");
@@ -38,7 +43,11 @@ namespace doc
 		for(size_t i=0;i<num;i++)
 		{
 			CNode nod=sel.nodeAt(i);
-			result->push_back(nod.attribute("href"));
+			string tmp=nod.attribute("href");
+			if(!tmp.empty())
+			{
+				result->push_back(tmp);
+			}
 		}
 	}
 }
