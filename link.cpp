@@ -78,8 +78,10 @@ namespace doc
 			}
 			if(isFirst(p))
 			{
+				auto tmp=now;
+				tmp++;
+				auto j=lst->insert(tmp,p);//iterator to inserted element
 				now++;
-				auto j=lst->insert(now,p);//iterator to inserted element
 				child.push_back(j);
 				continue;
 			}
