@@ -47,6 +47,7 @@ namespace doc
 	link::link(std::list<path>::iterator i)
 	{
 		links=nullptr;
+		this->lst=root->lst;
 		this->isBase=false;
 		this->it=i;
 	}
@@ -78,8 +79,8 @@ namespace doc
 			if(isFirst(p))
 			{
 				lst->insert(now,p);
-				child.push_back(now);
 				now++;
+				child.push_back(now);
 				continue;
 			}
 		}
