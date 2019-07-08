@@ -30,22 +30,48 @@ namespace doc
 		buf<<i.rdbuf();
 		s=buf.str();
 	}
+	static void get_link(CDocument &doc,const char *key,void func(const string &str,void *par),void *par)
+	{
+		CSelection s=doc.find(key);
+		CSelection link=s.find("a");
+		size_t num=link.nodeNum();
+		for(size_t i=0;i<num;i++)
+		{
+			CNode nod=link.nodeAt(i);
+			string tmp=nod.attribute("href");
+			if(!tmp.empty())
+			{
+				func(tmp,par);
+			}
+		}
+	}
 	void parse(const char *filename,std::list<path> *result)
 	{
+		std::list<path> all;
+		std::list<path>::size_type exclude;
+
+		auto count=[](const string &str,void *par)->void{
+			std::list<path>::size_type &p=*reinterpret_cast<std::list<path>::size_type*>(par);
+			p++;
+		};
+		auto add=[](const string &str,void *par)->void{
+			std::list<path> *l=reinterpret_cast<std::list<path>*>(par);
+			l->push_back(str);
+		};
+
 		string s;
 		read(filename,s);
 		CDocument d;
 		d.parse(s);
-		CSelection sel=d.find("a");
-		size_t num=sel.nodeNum();
-		for(size_t i=0;i<num;i++)
+		get_link(d,"a",add,&all);
+		get_link(d,"div[id=\"contentSub\"]",count,&exclude);
+		get_link(d,"div[class=\"t-navbar\"]",count,&exclude);
+		auto all_num=all.size();
+		auto it=all.begin();
+		for(auto i=0;i<exclude;i++) it++;
+		for(auto i=exclude;i<all_num;i++,it++)
 		{
-			CNode nod=sel.nodeAt(i);
-			string tmp=nod.attribute("href");
-			if(!tmp.empty())
-			{
-				result->push_back(tmp);
-			}
+			result->push_back(*it);
 		}
 	}
 }
