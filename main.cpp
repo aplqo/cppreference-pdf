@@ -66,10 +66,10 @@ int main(int argc,char *argv[])
         doc::list diff;
         lnk.Compare(flist, &diff);
         {
-            path p("ignore.txt");
+            path p=(path(argv[2]).parent_path())/"ignore.txt";
             if (exists(p))
             {
-                doc::filelist ign("ignore.txt");
+                doc::filelist ign(p.c_str());
                 diff.Remove(ign);
             }
             else
