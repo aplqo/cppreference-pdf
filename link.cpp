@@ -14,6 +14,14 @@ using fs::is_regular_file;
 
 namespace doc
 {
+	//insert a object after a iterator
+	template<class T>
+	inline typename std::list<T>::iterator ins(std::list<T> &lst,const typename std::list<T>::iterator pos,T obj)
+	{
+		auto i=pos;
+		i++;
+		return lst.insert(i, obj);
+	}
 	class link :public list
 	{
 	public:
@@ -78,11 +86,8 @@ namespace doc
 			}
 			if(isFirst(p))
 			{
-				auto tmp=now;
-				tmp++;
-				auto j=lst->insert(tmp,p);//iterator to inserted element
-				now++;
-				child.push_back(j);
+				now=ins(*lst,now,p);
+				child.push_back(now);
 				continue;
 			}
 		}
@@ -98,11 +103,12 @@ namespace doc
 		std::list<link>::iterator c_now=child.begin();
 		for(auto &j: *links)
 		{
-			if(!find(j))
+			path p=toAbsolute(j);
+			if(!find(p))
 			{
-				lst->insert(now,toAbsolute(j));
+				now=ins(*lst,now,p);
 				result=false;
-				child.insert(c_now,now);
+				c_now=ins(child,c_now,link(now));
 				c_now->Read();
 			}
 			now++;
