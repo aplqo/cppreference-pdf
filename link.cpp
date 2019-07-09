@@ -34,6 +34,7 @@ namespace doc
 	private:
 		inline path toAbsolute(const path &p);
 		inline bool isFirst(const path &p); //check if a file should be included in the first time
+		inline bool isInScope(const path &p);//check if file is in subdir of root file
 		/*---var---*/
 		std::list<path> *links;
 
@@ -75,6 +76,11 @@ namespace doc
 			};
 			path p=toAbsolute(*i);
 			if(!(exists(p)&&is_regular_file(p)))
+			{
+				i=e(i);
+				continue;
+			}
+			if(!isInScope(p))
 			{
 				i=e(i);
 				continue;
@@ -158,5 +164,19 @@ namespace doc
 		{
 			return false;
 		}
+	}
+	inline bool link::isInScope(const path &p)
+	{
+		const path &dir=(root->it->parent_path())/(root->it->stem());
+		auto j=p.begin();
+		for(const auto &i: dir)
+		{
+			if(i!=*j)
+			{
+				return false;
+			}
+			j++;
+		}
+		return true;
 	}
 }
