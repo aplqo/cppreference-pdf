@@ -19,6 +19,7 @@ using fs::temp_directory_path;
 namespace doc
 {
     const path tmpdir=(temp_directory_path())/path("cppreference-doc");
+    const int step=80;
     /*
     //callback functions for wkhtmltopdf
     void progress_changed(wkhtmltopdf_converter *c,int p){}
@@ -87,11 +88,11 @@ namespace doc
     {
         range result{200,200,0};
         result.size=tryone(p,200);
-        unsigned int tmp=200;
+        int tmp=200;
         uintmax_t size=result.size;
         while(true)
         {
-            tmp+=80;
+            tmp+=step;
             size=tryone(p,tmp);
             if(size>result.size)
             {
@@ -100,13 +101,18 @@ namespace doc
             }
             else
             {
-                tmp-=80;
+                tmp-=step;
                 break;
             }
         }
         while(true)
         {
-            tmp-=80;
+            tmp-=step;
+            if(tmp<0)
+            {
+              result.beg=0;
+              break;
+            }
             size=tryone(p,tmp);
             result.beg=tmp;
             if(size<result.size)
