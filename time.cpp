@@ -77,11 +77,11 @@ namespace doc
         uintmax_t mids=tryone(p,mid);
         if(mids<r.size)
         {
-            return find(p,{mid,r.end,r.size},times++);
+            return find(p,{mid,r.end,r.size},times+1);
         }
         else
         {
-            return find(p,{r.beg,mid,r.size},times++);
+            return find(p,{r.beg,mid,r.size},times+1);
         }
     }
     inline range getr(const path &p)
