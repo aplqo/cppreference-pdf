@@ -34,8 +34,8 @@ namespace doc
         {
             lst->push_back(p);
         }
-        
-        path tmp=(p.parent_path())/(p.filename());
+
+        path tmp=(p.parent_path())/(p.stem());
         recursive_directory_iterator dir(tmp);
         for(auto &i :dir)
         {
