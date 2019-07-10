@@ -25,7 +25,7 @@ namespace doc
     /*---callbacks for wkhtmltopdf--- */
     void progress_changed(wkhtmltopdf_converter * c, int p)
     {
-        cout<<p<<"\r";
+        cout<<"Progress:"<<p<<"%"<<"\r";
         cout.flush();
     }
     void phase_changed(wkhtmltopdf_converter * c)
@@ -43,10 +43,10 @@ namespace doc
     }
 
     inline bool generate(list &l,const char *out)
-    {   
+    {
         wkhtmltopdf_global_settings *gs=wkhtmltopdf_create_global_settings();
         wkhtmltopdf_set_global_setting(gs,"out",out);
-        
+
         wkhtmltopdf_converter *c=wkhtmltopdf_create_converter(gs);
         l.Apply(add,c);
 
