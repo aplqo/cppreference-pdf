@@ -26,7 +26,7 @@ namespace doc
     void cb_log(const path &p,void *par)
     {
         ofstream *o=reinterpret_cast<ofstream*>(par);
-        (*o)<<p<<endl;
+        (*o)<<p.c_str()<<endl;
     }
     void log(list &l,const char *file,const char* out)
     {

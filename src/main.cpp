@@ -61,6 +61,7 @@ int main(int argc,char *argv[])
             doc::error("These file aren't included:");
             auto cb = [](const path &p, void *par) { cout << "\t" << p << endl; };
             diff.Apply(cb, nullptr);
+            doc::log(diff,"Missing.log",argv[2]);
             return -1;
         }
     }
