@@ -1,25 +1,10 @@
-#include<list>
-#include<filesystem>
+#include"../include/list.h"
 
 using std::filesystem::path;
 using std::filesystem::equivalent;
 
 namespace doc
 {
-	class list
-	{
-	public:
-		list();
-		void Compare(const list &l,list *result);
-		void Remove(const list &l);
-		bool isEmpty();
-		void Apply(void func(const path &p,void *par),void *par);
-		~list();
-	protected:
-		bool find(const path &p);
-		std::list<path> *lst;
-		bool isBase;
-	};
 	list::list()
 	{
 		isBase=true;

@@ -1,7 +1,12 @@
-#include<iostream>
+#include"../include/log.h"
+#include<fstream>
+#include<filesystem>
 
 using std::cout;
 using std::endl;
+using std::filesystem::path;
+using std::ofstream;
+using std::ios;
 
 namespace doc
 {
@@ -16,5 +21,19 @@ namespace doc
     void error(const char *msg)
     {
         cout<<"\033[31m"<<"[ERROR]"<<msg<<"\033[0m"<<endl;
+    }
+    //callback for log
+    void cb_log(const path &p,void *par)
+    {
+        ofstream *o=reinterpret_cast<ofstream*>(par);
+        (*o)<<p<<endl;
+    }
+    void log(list &l,const char *file,const char* out)
+    {
+        path o_path=(path(out).parent_path())/path(file);
+        ofstream o(o_path.c_str(),ios::out);
+        if(!o.is_open()) return;
+        l.Apply(cb_log,&o);
+        o.close();
     }
 }

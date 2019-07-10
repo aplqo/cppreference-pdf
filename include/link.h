@@ -1,8 +1,7 @@
 #ifndef LINK_H
 #define LINK_H
 
-#include"list.h"
-#include<filesystem>
+#include"../include/list.h"
 
 namespace doc
 {
@@ -16,9 +15,10 @@ namespace doc
         void Release();
         ~link();
       private:
-        inline std::filesystem::path toAbsolute(const std::filesystem::path &p);
-        inline bool isFirst(const std::filesystem::path &p); // check if a file should be
+        std::filesystem::path toAbsolute(const std::filesystem::path &p);
+        bool isFirst(const std::filesystem::path &p); // check if a file should be
                                             // included in the first time
+        bool isInScope(const std::filesystem::path &p);//check if file is in subdir of root file
         /*---var---*/
         std::list<std::filesystem::path> *links;
 
@@ -27,6 +27,14 @@ namespace doc
 
         std::list<std::filesystem::path>::iterator it;
     };
+    //insert a object after a iterator
+    template<class T>
+    typename std::list<T>::iterator ins(std::list<T> &lst,const typename std::list<T>::iterator pos,T obj)
+    {
+      auto i=pos;
+      i++;
+      return lst.insert(i, obj);
+    }
 };
 
 #endif

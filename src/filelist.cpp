@@ -1,3 +1,4 @@
+#include"../include/filelist.h"
 #include"../include/list.h"
 #include<fstream>
 #include<string>
@@ -17,15 +18,6 @@ using fs::current_path;
 
 namespace doc
 {
-    class filelist:public list
-    {
-        public:
-        filelist(const path &p);
-        filelist(const char * file);
-        ~filelist();
-        private:
-        inline path toAbsolute(const path &p);
-    };
     filelist::filelist(const path &p)
     {
         lst=new std::list<path>;

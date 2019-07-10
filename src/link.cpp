@@ -1,6 +1,4 @@
-#include<list>
-#include<filesystem>
-#include"../include/list.h"
+#include"../include/link.h"
 #include"../include/parse.h"
 
 namespace fs=std::filesystem;
@@ -14,35 +12,6 @@ using fs::is_regular_file;
 
 namespace doc
 {
-	//insert a object after a iterator
-	template<class T>
-	inline typename std::list<T>::iterator ins(std::list<T> &lst,const typename std::list<T>::iterator pos,T obj)
-	{
-		auto i=pos;
-		i++;
-		return lst.insert(i, obj);
-	}
-	class link :public list
-	{
-	public:
-		link(const path &p);
-		link(std::list<path>::iterator i);
-		void Read();
-		bool Check();
-		void Release();
-		~link();
-	private:
-		inline path toAbsolute(const path &p);
-		inline bool isFirst(const path &p); //check if a file should be included in the first time
-		inline bool isInScope(const path &p);//check if file is in subdir of root file
-		/*---var---*/
-		std::list<path> *links;
-
-		static link* root;
-		std::list<link> child;
-
-		std::list<path>::iterator it;
-	};
 	link* link::root=nullptr;
 	link::link(const path &p)
 	{
@@ -140,7 +109,7 @@ namespace doc
 			delete lst;
 		}
 	}
-	inline path link::toAbsolute(const path &p)
+	path link::toAbsolute(const path &p)
 	{
 		path res;
 		path cu=current_path();
@@ -153,7 +122,7 @@ namespace doc
 		current_path(cu);
 		return res;
 	}
-	inline bool link::isFirst(const path &p)
+	bool link::isFirst(const path &p)
 	{
 		path dir=(it->parent_path())/(it->stem())/(p.filename());
 		if(exists(dir))
@@ -165,7 +134,7 @@ namespace doc
 			return false;
 		}
 	}
-	inline bool link::isInScope(const path &p)
+	bool link::isInScope(const path &p)
 	{
 		const path &dir=(root->it->parent_path())/(root->it->stem());
 		auto j=p.begin();

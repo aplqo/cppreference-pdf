@@ -1,7 +1,3 @@
-#include<filesystem>
-#include<iostream>
-#include<fstream>
-#include<string>
 #include"../include/list.h"
 #include"../include/filelist.h"
 #include"../include/link.h"
@@ -12,9 +8,6 @@ using std::filesystem::path;
 using std::filesystem::exists;
 using std::cout;
 using std::endl;
-using std::ios;
-using std::string;
-using std::ofstream;
 
 namespace doc
 {
@@ -22,20 +15,6 @@ namespace doc
     {
         cout<<"usage: doc [firstfile] [outputfile]"<<endl;
         cout<<"Convert cppreference doc to pdf"<<endl;
-    }
-    //callback for log
-    void cb_log(const path &p,void *par)
-    {
-        ofstream *o=reinterpret_cast<ofstream*>(par);
-        (*o)<<p<<endl;
-    }
-    void log(list &l,const char *file,const char* out)
-    {
-        path o_path=(path(out).parent_path())/path(file);
-        ofstream o(o_path.c_str(),ios::out);
-        if(!o.is_open()) return;
-        l.Apply(cb_log,&o);
-        o.close();
     }
 }
 int main(int argc,char *argv[])
