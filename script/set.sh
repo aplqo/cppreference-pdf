@@ -2,7 +2,7 @@
 
 . var.sh
 
-scripts="${project}/tmp"
+scripts="${project}/script"
 
 #wait for ipad
 echo "Press any key when remote device is ready"
