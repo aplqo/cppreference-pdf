@@ -48,7 +48,7 @@ namespace doc
 	void parse(const char *filename,std::list<path> *result)
 	{
 		std::list<path> all;
-		std::list<path>::size_type exclude;
+		std::list<path>::size_type exclude=0;
 
 		auto count=[](const string &str,void *par)->void{
 			std::list<path>::size_type &p=*reinterpret_cast<std::list<path>::size_type*>(par);
@@ -68,7 +68,7 @@ namespace doc
 		get_link(d,"div[class=\"t-navbar\"]",count,&exclude);
 		auto all_num=all.size();
 		auto it=all.begin();
-		for(auto i=0;i<exclude;i++) it++;
+		for(size_t i=0;i<exclude;i++) it++;
 		for(auto i=exclude;i<all_num;i++,it++)
 		{
 			result->push_back(*it);
