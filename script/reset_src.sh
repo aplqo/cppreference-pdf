@@ -16,7 +16,7 @@ git clone --bare $project remote
 git clone "${tmp}/remote" src
 cd $project
 t=$(git remote show | grep -x ${tmp_remote} )
-if [ -z  $t]
+if [ -z  $t ]
 then
 	git remote add ${tmp_remote} "${tmp}/remote"
 fi
