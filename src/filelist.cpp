@@ -1,4 +1,4 @@
-#include"list.h"
+#include"../include/list.h"
 #include<fstream>
 #include<string>
 #include<filesystem>

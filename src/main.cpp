@@ -2,11 +2,11 @@
 #include<iostream>
 #include<fstream>
 #include<string>
-#include"list.h"
-#include"filelist.h"
-#include"link.h"
-#include"log.h"
-#include"pdf.h"
+#include"../include/list.h"
+#include"../include/filelist.h"
+#include"../include/link.h"
+#include"../include/log.h"
+#include"../include/pdf.h"
 
 using std::filesystem::path;
 using std::filesystem::exists;

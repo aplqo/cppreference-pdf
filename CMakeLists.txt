@@ -1,7 +1,7 @@
 project(cppreference-pdf)
 cmake_minimum_required(VERSION 3.7)
 
-aux_source_directory(. src)
+aux_source_directory(src/ src)
 
 function(is_found lib lib_name)
 	if(lib MATCHES "NOTFOUND")

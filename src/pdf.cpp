@@ -2,9 +2,9 @@
 #include<filesystem>
 #include<iostream>
 #include<wkhtmltox/pdf.h>
-#include"list.h"
-#include"time.h"
-#include"log.h"
+#include"../include/list.h"
+#include"../include/time.h"
+#include"../include/log.h"
 
 using std::string;
 using std::cout;

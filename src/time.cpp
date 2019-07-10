@@ -1,5 +1,5 @@
 #include<list>
-#include"list.h"
+#include"../include/list.h"
 #include<charconv>
 #include<filesystem>
 #include<string>

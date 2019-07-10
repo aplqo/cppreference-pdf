@@ -1,7 +1,7 @@
 #include<list>
 #include<filesystem>
-#include"list.h"
-#include"parse.h"
+#include"../include/list.h"
+#include"../include/parse.h"
 
 namespace fs=std::filesystem;
 using fs::path;
