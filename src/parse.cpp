@@ -12,6 +12,7 @@ using std::ifstream;
 using std::stringstream;
 using std::ios_base;
 using std::string;
+using std::stoi;
 using std::locale;
 
 namespace doc
@@ -29,6 +30,30 @@ namespace doc
 		stringstream buf;
 		buf<<i.rdbuf();
 		s=buf.str();
+	}
+	static inline string arg(const string &s)
+	{
+		string::size_type pos=s.find('#');
+		string::size_type pos2=s.find('?');
+		return (pos>pos2? s.substr(0,pos2):s.substr(0,pos));
+	}
+	static inline void decode(string &url)
+	{
+		string::size_type pos,beg=0;
+		for(pos=url.find('%');pos!=string::npos;pos=url.find('%',beg))
+		{
+			string &&tmp=url.substr(pos+1,2);
+			char &&i=static_cast<char>(stoi(tmp,nullptr,16));
+			url.replace(pos,3,1,i);
+			beg=pos+1;
+		}
+	}
+	static void add(const string &str,void *par)
+	{
+		std::list<path> *l=reinterpret_cast<std::list<path>*>(par);
+		string &&s=arg(str);
+		decode(s);
+		l->push_back(s);
 	}
 	static void get_link(CDocument &doc,const char *key,void func(const string &str,void *par),void *par)
 	{
@@ -53,10 +78,6 @@ namespace doc
 		auto count=[](const string &str,void *par)->void{
 			std::list<path>::size_type &p=*reinterpret_cast<std::list<path>::size_type*>(par);
 			p++;
-		};
-		auto add=[](const string &str,void *par)->void{
-			std::list<path> *l=reinterpret_cast<std::list<path>*>(par);
-			l->push_back(str);
 		};
 
 		string s;
