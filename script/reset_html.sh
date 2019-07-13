@@ -9,5 +9,6 @@ then
 fi
 
 ${html_download} "${html_ip}${html_dir}/${html_file}" "${tmp}/"
+cd ${tmp}
 unzip "${tmp}/${html_file}"
 rm "${tmp}/${html_file}"
