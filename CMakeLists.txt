@@ -36,3 +36,7 @@ endif()
 target_link_libraries(doc ${gq})
 target_link_libraries(doc ${gumbo})
 target_link_libraries(doc ${wkhtmltopdf})
+
+#unit test
+add_subdirectory(test)
+enable_testing()
