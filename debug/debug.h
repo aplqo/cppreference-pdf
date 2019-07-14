@@ -3,6 +3,7 @@
 
 #include<iostream>
 #include"../include/list.h"
+#include<algorithm>
 
 namespace doc
 {
@@ -21,6 +22,22 @@ namespace doc
         std::cout<<"\t"<<i<<std::endl;
       }
       return os;
+    }
+    template<typename T>
+    bool operator==(const std::list<T> &fact,const std::list<T> &expect)
+    {
+      if(std::equal(fact.begin(),fact.end(),expect.begin()))
+      {
+        return true;
+      }
+      else
+      {
+        std::cout<<"Expected:"<<std::endl;
+        std::for_each(expect.begin(),expect.end(),[](const T& a){std::cout<<"\t"<<a<<std::endl;});
+        std::cout<<"Actually:"<<std::endl;
+        std::for_each(fact.begin(),fact.end(),[](const T& a){std::cout<<"\t"<<a<<std::endl;});
+        return false;
+      }
     }
 }
 #endif
