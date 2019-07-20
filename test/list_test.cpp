@@ -128,5 +128,20 @@ BOOST_DATA_TEST_CASE(compare,(bdata::make(0,1)*bdata::make(0,1))^bdata::make(-1,
     BOOST_CHECK_EQUAL_COLLECTIONS(l.lst->begin(),l.lst->end(),lt::data::include[res],lt::data::include[res]+lt::data::num[res]);
   }
 }
+BOOST_DATA_TEST_CASE(remove,(bdata::make(0,1)*bdata::make(0,1))^bdata::make(-1,0,1,-1),list1,list2,res)
+{
+  list_test::test t1(lt::data::include[list1],lt::data::num[list1]),t2(lt::data::include[list2],lt::data::num[list2]);
+  t1.Remove(t2);
+  std::list<path> &l=*(t1.lst);
+  const path *r=lt::data::include[res];
+  if(res==-1)
+  {
+    BOOST_TEST(l==std::list<path>{},tt::per_element());
+  }
+  else
+  {
+    BOOST_CHECK_EQUAL_COLLECTIONS(l.begin(),l.end(),r,r+lt::data::num[res]);
+  }
+}
 
 BOOST_AUTO_TEST_SUITE_END()
