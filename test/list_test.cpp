@@ -15,21 +15,49 @@ using std::endl;
 using std::ios;
 using std::ofstream;
 namespace bdata=boost::unit_test::data;
+namespace tt=boost::test_tools;
 
 namespace list_test
 {
+  struct data
+    {
+      static const path tmp;
+      //test path
+      static const path dest;
+      //test files
+      static const path both[3];
+      static const path include[2][3];
+      static const path exclude[2];
+      static const unsigned int num[];
+    };
+    const path data::tmp=canonical(absolute(temp_directory_path()));
+    //test path
+    const path data::dest = tmp / "tmp-test";
+    //test files
+    const path data::both[3] = {dest / "include1.html", dest / "include2.html", dest / "include3.html"};
+    const path data::include[2][3] = {
+      {dest / "include1_1.html", dest / "include2_1.html"},
+      {dest / "include1_2.html", dest / "include2_2.html",dest/"include2_3.html"}
+    };
+    const path data::exclude[2] = {dest / "exclude1.html", dest / "exclude2.html"};
+    const unsigned int data::num[]={2,3};
+
   //test class
   class test : public doc::list
   {
   public:
-    test();
-    void add(const path *p, unsigned int num);
+    test()=default;
+    test(const path p[],unsigned int num);
     using doc::list::lst;
     using doc::list::find;
+  private:
+    void add(const path *p, unsigned int num);
   };
-  test::test()
+  test::test(const path p[],unsigned int num)
   {
     lst = new std::list<path>;
+    add(data::both,3);
+    add(p,num);
   }
   void test::add(const path *p, unsigned int num)
   {
@@ -39,24 +67,6 @@ namespace list_test
       lst->push_back(*i);
     }
   }
-
-  struct data
-  {
-    //test path
-    static const path dest;
-    //test files
-    static const path both[3];
-    static const path include_1[2];
-    static const path include_2[2];
-    static const path exclude[2];
-  };
-  //test path
-  const path data::dest = canonical(absolute(temp_directory_path() / "tmp-test"));
-  //test files
-  const path data::both[3] = {dest / "include1.html", dest / "include2.html", dest / "include3.html"};
-  const path data::include_1[2] = {dest / "include1_1.html", dest / "include2_1.html"};
-  const path data::include_2[2] = {dest / "include1_2.html", dest / "include2_2.html"};
-  const path data::exclude[2] = {dest / "exclude1.html", dest / "exclude2.html"};
 
   struct fixture:public data
   {
@@ -73,8 +83,8 @@ namespace list_test
     create_directory(dest);
     //create files
     create(both, 3);
-    create(include_1, 2);
-    create(include_2, 2);
+    create(include[0], num[0]);
+    create(include[1], num[1]);
     create(exclude, 2);
   }
   fixture::~fixture()
@@ -92,6 +102,7 @@ namespace list_test
     }
   }
 }
+namespace lt=list_test;
 BOOST_FIXTURE_TEST_SUITE(test_list, list_test::fixture)
 
 BOOST_AUTO_TEST_CASE(dest)
@@ -102,6 +113,20 @@ BOOST_AUTO_TEST_CASE(isEmpty)
 {
   doc::list l;
   BOOST_TEST(l.isEmpty());
+}
+BOOST_DATA_TEST_CASE(compare,(bdata::make(0,1)*bdata::make(0,1))^bdata::make(-1,1,0,-1),list1,list2,res)
+{
+  list_test::test t1(lt::data::include[list1],lt::data::num[list1]),t2(lt::data::include[list2],lt::data::num[list2]);
+  list_test::test l;
+  t1.Compare(t2,&l);
+  if(res==-1)
+  {
+    BOOST_TEST(*(l.lst)==std::list<path>{},tt::per_element());
+  }
+  else
+  {
+    BOOST_CHECK_EQUAL_COLLECTIONS(l.lst->begin(),l.lst->end(),lt::data::include[res],lt::data::include[res]+lt::data::num[res]);
+  }
 }
 
 BOOST_AUTO_TEST_SUITE_END()
