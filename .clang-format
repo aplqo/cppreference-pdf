@@ -1,0 +1,6 @@
+---
+Language:        Cpp
+BasedOnStyle:  Webkit
+NamespaceIndentation: All
+BreakBeforeBraces: Allman
+#TabWidth: 4 

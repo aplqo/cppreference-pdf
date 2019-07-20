@@ -1,23 +1,23 @@
-#include"../include/list.h"
-#include"../include/filelist.h"
-#include"../include/link.h"
-#include"../include/log.h"
-#include"../include/pdf.h"
+#include "../include/filelist.h"
+#include "../include/link.h"
+#include "../include/list.h"
+#include "../include/log.h"
+#include "../include/pdf.h"
 
-using std::filesystem::path;
-using std::filesystem::exists;
 using std::cout;
 using std::endl;
+using std::filesystem::exists;
+using std::filesystem::path;
 
 namespace doc
 {
     inline void usage()
     {
-        cout<<"usage: doc [firstfile] [outputfile]"<<endl;
-        cout<<"Convert cppreference doc to pdf"<<endl;
+        cout << "usage: doc [firstfile] [outputfile]" << endl;
+        cout << "Convert cppreference doc to pdf" << endl;
     }
 }
-int main(int argc,char *argv[])
+int main(int argc, char* argv[])
 {
     if (argc < 3)
     {
@@ -36,16 +36,16 @@ int main(int argc,char *argv[])
     lnk.Read();
     while (!lnk.Check())
         ;
-    doc::log(lnk, "links.log",argv[2]);
+    doc::log(lnk, "links.log", argv[2]);
 
     doc::info("Checking if every file is included...");
     {
         doc::filelist flist(first);
-        doc::log(flist, "filelist.log",argv[2]);
+        doc::log(flist, "filelist.log", argv[2]);
         doc::list diff;
         lnk.Compare(flist, &diff);
         {
-            path p=(path(argv[2]).parent_path())/"ignore.txt";
+            path p = (path(argv[2]).parent_path()) / "ignore.txt";
             if (exists(p))
             {
                 doc::filelist ign(p.c_str());
@@ -59,9 +59,9 @@ int main(int argc,char *argv[])
         if (!diff.isEmpty())
         {
             doc::error("These file aren't included:");
-            auto cb = [](const path &p, void *par) { cout << "\t" << p << endl; };
+            auto cb = [](const path& p, void* par) { cout << "\t" << p << endl; };
             diff.Apply(cb, nullptr);
-            doc::log(diff,"Missing.log",argv[2]);
+            doc::log(diff, "Missing.log", argv[2]);
             return -1;
         }
     }
