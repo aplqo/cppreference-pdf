@@ -9,14 +9,14 @@ namespace doc
     {
     public:
         list();
-        void Compare(const list& l, list* result);
+        void Compare(const list& l, list* result) const;
         void Remove(const list& l);
-        bool isEmpty();
-        void Apply(void func(const std::filesystem::path& p, void* par), void* par);
+        bool isEmpty() const;
+        void Apply(void func(const std::filesystem::path& p, void* par), void* par) const;
         ~list();
 
     protected:
-        bool find(const std::filesystem::path& p);
+        bool find(const std::filesystem::path& p) const;
         std::list<std::filesystem::path>* lst;
         bool isBase;
     };

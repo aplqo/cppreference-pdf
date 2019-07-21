@@ -10,7 +10,7 @@ namespace doc
         isBase = true;
         lst = nullptr;
     }
-    void list::Compare(const list& l, list* result)
+    void list::Compare(const list& l, list* result) const
     {
         if ((this->lst) == nullptr || result == nullptr)
         {
@@ -40,7 +40,7 @@ namespace doc
             lst->remove(i);
         }
     }
-    bool list::isEmpty()
+    bool list::isEmpty() const
     {
         if (lst == nullptr)
         {
@@ -48,7 +48,7 @@ namespace doc
         }
         return lst->empty();
     }
-    bool list::find(const path& p)
+    bool list::find(const path& p) const
     {
         for (auto& i : *lst)
         {
@@ -67,7 +67,7 @@ namespace doc
             lst = nullptr;
         }
     }
-    void list::Apply(void func(const path& p, void* par), void* par)
+    void list::Apply(void func(const path& p, void* par), void* par) const
     {
         if (lst == nullptr)
         {
