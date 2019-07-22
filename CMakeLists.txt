@@ -43,5 +43,6 @@ target_link_libraries(doc ${wkhtmltopdf})
 
 #unit test
 add_subdirectory(test)
-enable_testing()
-add_test(NAME unittest COMMAND unit_test)
+
+add_custom_target(test COMMAND ${CMAKE_BINARY_DIR}/test/unit_test)
+add_custom_target(time COMMAND ${CMAKE_BINARY_DIR}/test/unit_test --log_level=all)
