@@ -30,6 +30,9 @@ if( CMAKE_CXX_COMPILER MATCHES "clang")
 endif()
 
 add_library(util STATIC ${src})
+target_link_libraries(util ${gq})
+target_link_libraries(util ${gumbo})
+target_link_libraries(util ${wkhtmltopdf})
 
 if(CMAKE_BUILD_TYPE EQUAL "Debug")
 	add_executable(doc src/main.cpp ${debug})
@@ -37,9 +40,6 @@ else()
 	add_executable(doc src/main.cpp)
 endif()
 target_link_libraries(doc util)
-target_link_libraries(doc ${gq})
-target_link_libraries(doc ${gumbo})
-target_link_libraries(doc ${wkhtmltopdf})
 
 #unit test
 add_subdirectory(test)
