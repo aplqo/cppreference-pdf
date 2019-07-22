@@ -19,6 +19,12 @@ Variables for downloading html files.
 **html_dir**:The directory of html files.  
 **html_file**:The file name of html archive.  
 **html_download**:The command to download html file.  
+### ttf file
+Variables for downloading ttf files.
+**ttf_ip**:The ip of remote device to download ttf files.  
+**ttf_dir**:The directory of ttf files.  
+**ttf_file**:The file name of ttf files.  
+**ttf_download**:The command to download ttf file.  
 ### compiler select
 **CC**:C compiler path  
 **CXX**:c++ compiler path  

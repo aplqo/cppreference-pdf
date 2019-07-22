@@ -15,6 +15,12 @@ html_dir="/mwiki/images/b/b2"
 html_file="html_book_20190607.zip"
 html_download="wget"
 
+#ttf file
+ttf_ip="http://en.cppreference.com"
+ttf_dir="/"
+readonly ttf_file="DejaVuSans-Bold.ttf  DejaVuSansMono-Bold.ttf  DejaVuSansMono.ttf  DejaVuSans.ttf"
+ttf_download="wget"
+
 #env
 export CC="clang-8"
 export CXX="clang++-8"
