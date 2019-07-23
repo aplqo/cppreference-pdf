@@ -4,8 +4,12 @@
 #include "../include/log.h"
 #include "../include/pdf.h"
 
+//debug:
+#include "../debug/debug.h"
+
 using std::cout;
 using std::endl;
+namespace fs = std::filesystem;
 using std::filesystem::exists;
 using std::filesystem::path;
 
@@ -19,12 +23,19 @@ namespace doc
 }
 int main(int argc, char* argv[])
 {
+    auto toAbs = [](const char* p) -> path {
+        return fs::canonical(fs::absolute(path(p)));
+    };
     if (argc < 3)
     {
         doc::usage();
         return 0;
     }
-    path first(argv[1]);
+    const path first = toAbs(argv[1]);
+    const path current = fs::current_path();
+
+    doc::debug("Current", current);
+
     if (!exists(first))
     {
         doc::error("Can't find first file");
@@ -36,6 +47,8 @@ int main(int argc, char* argv[])
     lnk.Read();
     while (!lnk.Check())
         ;
+
+    fs::current_path(current);
     doc::log(lnk, "links.log", argv[2]);
 
     doc::info("Checking if every file is included...");
