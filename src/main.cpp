@@ -4,9 +4,6 @@
 #include "../include/log.h"
 #include "../include/pdf.h"
 
-//debug:
-#include "../debug/debug.h"
-
 using std::cout;
 using std::endl;
 namespace fs = std::filesystem;
@@ -33,8 +30,6 @@ int main(int argc, char* argv[])
     }
     const path first = toAbs(argv[1]);
     const path current = fs::current_path();
-
-    doc::debug("Current", current);
 
     if (!exists(first))
     {
