@@ -36,7 +36,7 @@ namespace doc
         std::list<path>::iterator now = it;
         for (auto i = links->begin(); i != (links->end()); i++)
         {
-            auto e = [l = this->lst](std::list<path>::iterator pos) -> std::list<path>::iterator {
+            auto e = [l = this->links](std::list<path>::iterator pos) -> std::list<path>::iterator {
                 auto j = pos;
                 pos++;
                 l->erase(j);
@@ -112,14 +112,12 @@ namespace doc
     path link::toAbsolute(const path& p)
     {
         path res;
-        path cu = current_path();
         current_path(it->parent_path());
         res = absolute(p);
         if (exists(res))
         {
             res = canonical(res);
         }
-        current_path(cu);
         return res;
     }
     bool link::isFirst(const path& p)
