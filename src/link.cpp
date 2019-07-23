@@ -74,6 +74,7 @@ namespace doc
     bool link::Check()
     {
         bool result = true;
+        auto next = [](const std::list<path>::iterator i) -> path {auto j=i;++j;return *j; };
         std::list<path>::iterator now = it;
         std::list<link>::iterator c_now = child.begin();
         for (auto& j : *links)
@@ -83,11 +84,18 @@ namespace doc
             {
                 now = ins(*lst, now, p);
                 result = false;
-                c_now = ins(child, c_now, link(now));
+                c_now = child.insert(c_now, link(now));
+                ++now; //ignore paths add by child object
                 c_now->Read();
+                --now;
+                ++c_now;
+                continue;
             }
-            now++;
-            c_now++;
+            else if (next(now) == p) //check if it is inserted before
+            {
+                ++now;
+                ++c_now;
+            }
         }
         for (auto& i : child)
         {
