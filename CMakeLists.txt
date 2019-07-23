@@ -2,7 +2,7 @@ project(cppreference-pdf)
 cmake_minimum_required(VERSION 3.7)
 
 aux_source_directory(src/ src)
-list(REMOVE_ITEM src src/main.cpp)
+list(FILTER src EXCLUDE REGEX "main.cpp")
 
 if(CMAKE_BUILD_TYPE EQUAL "Debug")
 	aux_source_directory(debug/ debug)
