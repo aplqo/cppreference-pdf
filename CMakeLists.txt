@@ -7,6 +7,7 @@ if( CMAKE_CXX_COMPILER MATCHES "clang")
 endif()
 
 option(UNIT_TEST OFF)
+option(RUN OFF)
 
 add_subdirectory(src)
 
@@ -16,4 +17,8 @@ if(UNIT_TEST)
 
 	add_custom_target(test COMMAND ${CMAKE_BINARY_DIR}/test/unit_test)
 	add_custom_target(time COMMAND ${CMAKE_BINARY_DIR}/test/unit_test --log_level=all)
+endif()
+
+if(RUN)
+	add_custom_target(run COMMAND ${CMAKE_BINARY_DIR}/src/doc ${RUN_HTML} ${RUN_PDF})
 endif()
