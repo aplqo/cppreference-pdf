@@ -1,7 +1,7 @@
 #!/bin/bash
 
 project=""
-tmp="/tmp/cpp-test/"
+tmp="/tmp/cpp-test"
 ide=""
 tmp_remote="test"
 
@@ -20,6 +20,14 @@ ttf_ip="http://en.cppreference.com"
 ttf_dir="/"
 readonly ttf_file="DejaVuSans-Bold.ttf  DejaVuSansMono-Bold.ttf  DejaVuSansMono.ttf  DejaVuSans.ttf"
 ttf_download="wget"
+
+#run setting
+run_html="${tmp}/reference/en/c.html"
+run_pdf="${tmp}/output/c.pdf"
+
+#target setting
+run="1"
+unit="1"
 
 #env
 export CC="clang-8"
