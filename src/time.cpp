@@ -1,12 +1,11 @@
 #include "../include/list.h"
-#include <charconv>
 #include <filesystem>
 #include <list>
 #include <string>
 #include <wkhtmltox/pdf.h>
 
 using std::string;
-using std::to_chars;
+using std::to_string;
 namespace fs = std::filesystem;
 using fs::create_directory;
 using fs::exists;
@@ -49,9 +48,8 @@ namespace doc
         wkhtmltopdf_object_settings* os = wkhtmltopdf_create_object_settings();
         wkhtmltopdf_set_object_setting(os, "page", p.c_str());
         wkhtmltopdf_set_object_setting(os, "load.stopSolwScript", "false");
-        char t[3];
-        to_chars(t, t + 3, time);
-        wkhtmltopdf_set_object_setting(os, "load.jsdelay", t);
+        string s = to_string(time);
+        wkhtmltopdf_set_object_setting(os, "load.jsdelay", s.c_str());
 
         wkhtmltopdf_converter* c = wkhtmltopdf_create_converter(gs);
         wkhtmltopdf_add_object(c, os, nullptr);
@@ -176,8 +174,6 @@ namespace doc
         }
         res /= 5;
         res += 10;
-        char ch[3];
-        to_chars(ch, ch + 3, res);
-        return string(ch);
+        return to_string(res);
     }
 }
