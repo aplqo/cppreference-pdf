@@ -6,10 +6,14 @@ if( CMAKE_CXX_COMPILER MATCHES "clang")
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fuse-ld=lld-8 -lc++abi -stdlib=libc++ -lc++fs")
 endif()
 
+option(UNIT_TEST NO)
+
 add_subdirectory(src)
 
 #unit test
-add_subdirectory(test)
+if(UNIT_TEST)
+	add_subdirectory(test)
 
-add_custom_target(test COMMAND ${CMAKE_BINARY_DIR}/test/unit_test)
-add_custom_target(time COMMAND ${CMAKE_BINARY_DIR}/test/unit_test --log_level=all)
+	add_custom_target(test COMMAND ${CMAKE_BINARY_DIR}/test/unit_test)
+	add_custom_target(time COMMAND ${CMAKE_BINARY_DIR}/test/unit_test --log_level=all)
+endif()
