@@ -6,5 +6,6 @@ file(TO_NATIVE_PATH ${CMAKE_SOURCE_DIR} data)
 add_compile_definitions(SOURCE="${data}")
 
 add_executable(unit_test ${test})
+target_compile_features(unit_test PUBLIC "cxx_std_17")
 target_link_libraries(unit_test ${Boost_LIBRARIES})
 target_link_libraries(unit_test util)

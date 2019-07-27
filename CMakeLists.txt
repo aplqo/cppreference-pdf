@@ -2,8 +2,8 @@ project(cppreference-pdf)
 cmake_minimum_required(VERSION 3.7)
 
 if( CMAKE_CXX_COMPILER MATCHES "clang")
-	add_compile_options(-std=c++17 -stdlib=libc++ -lc++fs -lc++abi)
-	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fuse-ld=lld-8 -lc++abi -stdlib=libc++ -lc++fs")
+	add_compile_options(-stdlib=libc++)
+	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fuse-ld=lld-8 -stdlib=libc++ -lc++fs")
 endif()
 
 option(UNIT_TEST NO)
