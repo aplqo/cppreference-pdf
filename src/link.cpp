@@ -80,8 +80,15 @@ namespace doc
             path&& p = toAbsolute(j);
             if (!find(p))
             {
-                auto i = c_now == child.end() ? it : c_now->it;
-                auto now = lst->insert(i, p);
+                std::list<path>::iterator now;
+                if (c_now == child.end())
+                {
+                    now = ins(*lst, this->it, p);
+                }
+                else
+                {
+                    now = lst->insert(c_now->it, p);
+                }
                 result = false;
                 c_now = child.insert(c_now, link(now));
                 c_now->Read();
