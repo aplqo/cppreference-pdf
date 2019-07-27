@@ -12,5 +12,5 @@ fi
 
 mkdir "$build"
 cd "$build"
-cmake -DCMAKE_BUILD_TYPE="Debug" -DUNIT_TEST="YES" $test_src
+cmake -DCMAKE_BUILD_TYPE="Debug" -DUNIT_TEST="ON" $test_src
 make

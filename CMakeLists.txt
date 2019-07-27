@@ -6,7 +6,7 @@ if( CMAKE_CXX_COMPILER MATCHES "clang")
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fuse-ld=lld-8 -stdlib=libc++ -lc++fs")
 endif()
 
-option(UNIT_TEST NO)
+option(UNIT_TEST OFF)
 
 add_subdirectory(src)
 
