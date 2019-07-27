@@ -6,6 +6,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <wkhtmltox/pdf.h>
 
 using std::string;
 namespace fs = std::filesystem;
@@ -117,10 +118,12 @@ namespace time_test
     };
     fixture::fixture()
     {
+        wkhtmltopdf_init(false);
         fs::copy(src, dest, fs::copy_options::recursive);
     }
     fixture::~fixture()
     {
+        wkhtmltopdf_deinit();
         fs::remove_all(dest);
     }
 
