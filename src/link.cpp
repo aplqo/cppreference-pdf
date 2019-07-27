@@ -74,20 +74,31 @@ namespace doc
     bool link::Check()
     {
         bool result = true;
-        std::list<path>::iterator now = it;
         std::list<link>::iterator c_now = child.begin();
         for (auto& j : *links)
         {
-            path p = toAbsolute(j);
+            path&& p = toAbsolute(j);
             if (!find(p))
             {
-                now = ins(*lst, now, p);
+                std::list<path>::iterator now;
+                if (c_now == child.end())
+                {
+                    now = ins(*lst, this->it, p);
+                }
+                else
+                {
+                    now = lst->insert(c_now->it, p);
+                }
                 result = false;
-                c_now = ins(child, c_now, link(now));
+                c_now = child.insert(c_now, link(now));
                 c_now->Read();
+                c_now++;
+                continue;
             }
-            now++;
-            c_now++;
+            else if ((c_now != child.end()) && (*(c_now->it) == p))
+            {
+                c_now++;
+            }
         }
         for (auto& i : child)
         {
